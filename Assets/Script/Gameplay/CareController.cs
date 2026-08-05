@@ -66,7 +66,6 @@ public class CareController : MonoBehaviour
     #region Load & Update Items
     private void LoadItemsUIs()
     {
-        print("in load Item UI");
         foodAmount[0].text = dataCtr.f00.ToString();
         foodAmount[1].text = dataCtr.f01.ToString();
         foodAmount[2].text = dataCtr.f02.ToString();

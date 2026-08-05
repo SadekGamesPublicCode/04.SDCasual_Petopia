@@ -56,21 +56,23 @@ public class ItemDrink_SC : MonoBehaviour
     {
         if (collision.gameObject.tag == "Pet")
         {
+            print("nutritionFact = " + nutritionFact);
             OnCaculatingPetStat(nutritionFact, happinessFact, energyFact);
             Destroy(gameObject);
         }
     }
     internal void OnCaculatingPetStat(int a, int b, int c)
     {
-        int tempHungerValue;
+        int tempTheirstyValue;
         int tempHappyValue;
         int tempEnergyValue;
 
-        tempHungerValue = dataCtr.petHungryValue + a;
+        tempTheirstyValue = dataCtr.petThirstyValue + a;
         tempHappyValue = dataCtr.petHappinessValue + b;
         tempEnergyValue = dataCtr.petEnergyValue + c;
 
-        dataCtr.UpdatePetHungry(tempHungerValue);
+        print("in OnCaculatingPetStat");
+        dataCtr.UpdatePetThirsty(tempTheirstyValue);
         dataCtr.UpdatePetHappy(tempHappyValue);
         dataCtr.UpdatePetenergy(tempEnergyValue);
     }

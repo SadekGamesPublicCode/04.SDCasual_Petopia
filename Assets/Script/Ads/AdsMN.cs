@@ -105,7 +105,10 @@ public class AdsMN : MonoBehaviour
         Invoke(nameof(ShowBannerAds), 10f);
     }
 
-    public void ShowBannerAds() => StartCoroutine(WaitToShowBanner());
+    public void ShowBannerAds()
+    {
+        StartCoroutine(WaitToShowBanner());
+    }
 
     public void ShowAds(int adsID)
     {

@@ -71,6 +71,7 @@ public class ItemSC : MonoBehaviour
         tempHappyValue = dataCtr.petHappinessValue + b;
         tempEnergyValue = dataCtr.petEnergyValue + c;
 
+        print("in OnCaculatingPetStat");
         dataCtr.UpdatePetHungry(tempHungerValue);
         dataCtr.UpdatePetHappy(tempHappyValue);
         dataCtr.UpdatePetenergy(tempEnergyValue);

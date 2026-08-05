@@ -23,15 +23,14 @@ public class FirstPlaySC : MonoBehaviour
     bool isAbility;
 
     //Pet static
-    [HideInInspector] public int petColorOrder, petMisteryOrder, petGenderOrder;
+    [HideInInspector] public int petMisteryOrder, petGenderOrder;
     int specieOrder;
     string petName;
     void Start()
     {
         specieOrder = 0;
-        petColorOrder = 0;
-        petMisteryOrder = 02;
-        petGenderOrder = 0;
+        petMisteryOrder = -1;
+        petGenderOrder = -1;
 
         selectSpeciePanel.gameObject.SetActive(false);
         greatingLines.gameObject.SetActive(false);
@@ -77,7 +76,7 @@ public class FirstPlaySC : MonoBehaviour
         petNameToShow.text = petName;
         petAvatar.sprite = petDefaultAvt[specieOrder- 1];
         petOldAmounts = Random.Range(0, 10);
-        petGenderOrder = Random.Range(0, 10);
+        petGenderOrder = Random.Range(0,2);
         switch (specieOrder)
         {
             case 1:
@@ -196,14 +195,13 @@ public class FirstPlaySC : MonoBehaviour
         petName = "";
         petAvatar.sprite = null;
         specieOrder = 0;
-        petGenderOrder = 0;
-        petMisteryOrder = 0;
-        petColorOrder = 0;
+        petGenderOrder = -1;
+        petMisteryOrder = -1;
         petShadow = null;
         Destroy(petAvatar);
         HidePetPreview();
         ShowSpeciePanel();
     }
     public void OnMisteryYes() => petMisteryOrder = 1;
-    public void OnMisteryNo() => petMisteryOrder = 1;
+    public void OnMisteryNo() => petMisteryOrder = 0;
 }

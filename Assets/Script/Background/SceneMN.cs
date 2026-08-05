@@ -27,7 +27,6 @@ public class SceneMN : Singleton<SceneMN>
                 SceneManager.LoadScene("FirstScene");
                 break;
             case 2:
-                print(" in load Main");
                 SceneManager.LoadScene("MainScene");
                 break;
             case 3:

@@ -30,17 +30,14 @@ public class LoadSC : MonoBehaviour
 
         if(loadSlide.value >= target)
         {
-            print("data.Firstplay = " + data.isFirstPlay);
             if (data.CheckFirstPlay() == false) 
             {
-                print("in firsr play false");
                 genCtr.OnLoadPet();
-                genCtr.OnChangeScene(2); 
+                genCtr.OnChangeScene(2); //Goes to game
             }
             else if (data.CheckFirstPlay() == true) 
             {
-                print("in firsr play true");
-                genCtr.OnChangeScene(1); 
+                genCtr.OnChangeScene(1); //Goes to initiatie pet
             }
         }
     }

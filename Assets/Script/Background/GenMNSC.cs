@@ -10,7 +10,8 @@ public class GenMNSC : Singleton<GenMNSC>
     [SerializeField] DataSC data;
     [SerializeField] GameObject notificationPnl;
     [SerializeField] AdsMN adsCtr;
-
+    [SerializeField] SoundSC sfxCtr;
+    [SerializeField] MainThemeSC themeCtr;
     [SerializeField] DatabaseManager dbMN;
     [HideInInspector] public int deviceType, curGameState;
     [HideInInspector] public string toDay;
@@ -72,16 +73,13 @@ public class GenMNSC : Singleton<GenMNSC>
     }
     public void OnShowNotic() => IsShowPanel(true, 0);
     public void OnShowSetting() => IsShowPanel(true, 1);
-    public void OnShowShop() => IsShowPanel(true, 2);
     public void OnShowRate() => IsShowPanel(true, 3);
     public void OnShowCredit() => IsShowPanel(true, 4);
     public void OnShowPromotion() => IsShowPanel(true, 5);
     public void OnShowReadme() => IsShowPanel(true, 6);
     public void OnShowPetInfor() => IsShowPanel(true, 7);
-
     public void OnHideNotic() => IsShowPanel(false, 0);
     public void OnHideSetting() => IsShowPanel(false, 1);
-    public void OnHideShop() => IsShowPanel(false, 2);
     public void OnHideRate() => IsShowPanel(false, 3);
     public void OnHideCredit() => IsShowPanel(false, 4);
     public void OnHidePromotion() => IsShowPanel(false, 5);
@@ -90,7 +88,6 @@ public class GenMNSC : Singleton<GenMNSC>
     private void HideAllPanel()
     {
         OnHideNotic();
-        OnHideShop();
         OnHidePromotion();
         OnHideSetting();
         OnHideRate();
@@ -126,5 +123,9 @@ public class GenMNSC : Singleton<GenMNSC>
         petThirstyLvl = data.petThirstyValue;
         petHappyLvl = data.petHappinessValue;
         petEnergyLvl = data.petEnergyValue;
+    }
+    public void PlaySFX()
+    {
+        if(data.pSFX == 1) { sfxCtr.PlaySFX(); }
     }
 }

@@ -9,9 +9,8 @@ public class CreditSC : MonoBehaviour
     void Start() { genCtr = GameObject.Find("GenMN").GetComponent<GenMNSC>(); }
     void Update() { }
     //public void OnCloseCredit() => genCtr.OnHideCredit();
-    public void ToPrivaciPolicy() { Application.OpenURL("https://sadekgame.wordpress.com/2024/10/17/dino-adventure-privacy-policy/"); }
-    public void ToTermUse() { Application.OpenURL("https://sadekgame.wordpress.com/2025/11/15/termuse-dino-adventure-2d/"); }
-    public void ToPromotion() => genCtr.OnShowPromotion();
+    public void ToPrivaciPolicy() { Application.OpenURL("https://sadekgame.wordpress.com/2026/01/13/petopia-policy/"); }
+    public void ToTermUse() { Application.OpenURL("https://sadekgame.wordpress.com/2026/08/02/termuse-petopia/"); }
     public void ToFB() { Application.OpenURL("https://www.facebook.com/sadeksoftVn"); }
     public void ToIG() { Application.OpenURL("https://www.instagram.com/sdsoftvn/"); }
     public void ToX() { Application.OpenURL("https://x.com/SadekGame15769"); }

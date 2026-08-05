@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using DG.Tweening;
 public class PetSC : MonoBehaviour
 {
     [HideInInspector] GenMNSC genCtr;
+    [HideInInspector] DataSC dataCtr;
     [HideInInspector] MainSC gameMainCtr;
     [SerializeField] internal List<Sprite> petVisual = new List<Sprite>();
     [SerializeField] List<GameObject> shitSpawn = new List<GameObject>();
@@ -25,6 +26,7 @@ public class PetSC : MonoBehaviour
     protected virtual void Start()
     {
         genCtr = GameObject.Find("GenMN").GetComponent<GenMNSC>();
+        dataCtr = GameObject.Find("GenMN").GetComponent<DataSC>();
         curScene = genCtr.curGameState;
         if (curScene != 1)
         {
@@ -33,18 +35,14 @@ public class PetSC : MonoBehaviour
             RandTimeNextPoop();
             InvokeRepeating(nameof(OnHungry), 0, 60);
             InvokeRepeating(nameof(OnThirsty), 0, 180);
-            InvokeRepeating(nameof(CrawlingAround), 0, 3.5f);
+            InvokeRepeating(nameof(MovingAround), 0, 3.5f);
             InvokeRepeating(nameof(OnShit), 25, waitTimeForNextPoop);
         }
         soapCountSwipe = 0;
     }
     internal void Update()
     {
-        if(IsAllowPeting() == true)
-        {
-
-        }
-        if (genCtr.deviceType == 1)
+        if (genCtr.deviceType == 1 && IsAllowPeting() == true)
         {
             //Touch
             if (Input.touchCount > 0)
@@ -63,7 +61,7 @@ public class PetSC : MonoBehaviour
                 }
             }
         }
-        else if (genCtr.deviceType == 2)
+        else if (genCtr.deviceType == 2 && IsAllowPeting() == true)
         {
             //Key board
             if (Input.GetMouseButton(0) == true)
@@ -102,10 +100,10 @@ public class PetSC : MonoBehaviour
     void CollectPetData()
     {
         color = gameMainCtr.gColor;
-        hungryValue = genCtr.petHungerLvl;
-        thirstyValue = genCtr.petThirstyLvl;
-        happuValue = genCtr.petHappyLvl;
-        energyValue = genCtr.petEnergyLvl;
+        hungryValue = dataCtr.petHungryValue;
+        thirstyValue = dataCtr.petThirstyValue;
+        happuValue = dataCtr.petHappinessValue;
+        energyValue = dataCtr.petEnergyValue;
         oldLevel = genCtr.petOld;
         specie = genCtr.petSpecie;
         sicknessOrder = genCtr.petSickCondition;
@@ -164,6 +162,7 @@ public class PetSC : MonoBehaviour
     {
         if(isDied == false && hungryValue > 0)
         {
+            hungryValue = dataCtr.petHungryValue;
             hungryValue--;
             gameMainCtr.OnUpdateHunger(0, hungryValue);
             if(hungryValue <= 0)
@@ -176,10 +175,14 @@ public class PetSC : MonoBehaviour
     {
         if(isDied == false)
         {
+            thirstyValue = dataCtr.petThirstyValue;
             thirstyValue--;
             gameMainCtr.OnUpdateThirsty(0, thirstyValue);
+            if (thirstyValue <= 0)
+            {
+                OnDied();
+            }
         }
-
     }
     void OnCheckHappy()
     {
@@ -216,17 +219,13 @@ public class PetSC : MonoBehaviour
 
         }
     }
-    void OnOutOfEnergy()
-    {
-        energyValue--;
-    }
     void OnDied()
     {
         isDied = true;
         gameMainCtr.UpdateDied(isDied);
         //Update sprite
     }
-    void CrawlingAround()
+    void MovingAround()
     {
         float tempNewPosX, tempNewPosY;
 
@@ -238,7 +237,7 @@ public class PetSC : MonoBehaviour
         {
             tempNewPosY = Random.Range(curPos.y - 1, curPos.y + 1);
         } while (tempNewPosY > 2 || tempNewPosY < -2);
-        transform.position = new Vector3(tempNewPosX, tempNewPosY, 0);
+        gameObject.transform.DOMove(new Vector3(tempNewPosX, tempNewPosY,0), 1f);
         curPos = new Vector3(tempNewPosX, tempNewPosY, 0);
     }
     void OnAgingUp()
@@ -267,13 +266,23 @@ public class PetSC : MonoBehaviour
 
         if(expLv >= expLvTarget) { OnAgingUp(); }
         else if(hungryValue >= 100) { hungryValue = 100; }
+
         gameMainCtr.OnPlusCoin(3);
         gameMainCtr.OnUpdateHunger(1, 0);
+        gameMainCtr.OnPlaySoundSFX();
     }
     void Drinking()
     {
-        gameMainCtr.OnPlusCoin(2);
+        expLv++;
+        thirstyValue++;
+        happuValue++;
+
+        if (expLv >= expLvTarget) { OnAgingUp(); }
+        else if (thirstyValue >= 100) { thirstyValue = 100; }
+
+        gameMainCtr.OnPlusCoin(3);
         gameMainCtr.OnUpdateThirsty(1,0);
+        gameMainCtr.OnPlaySoundSFX();
     }
     void Curing()
     {
@@ -287,23 +296,19 @@ public class PetSC : MonoBehaviour
         energyValue++;
         gameMainCtr.OnPlusCoin(1);
         gameMainCtr.OnUpdateHappy(1, 0);
+        gameMainCtr.OnPlaySoundSFX();
     }
     bool IsAllowPeting()
     {
         petChance = Random.Range(0, 100);
-        switch (specie)
+
+        if(specie == 0 && petChance >= 25)
         {
-            case 0: // Dog (75% chance to allow petting)
-                return petChance >= 25;
-
-            case 1: // Cat (25% chance to allow petting)
-                return petChance >= 75;
-
-            default:
-                // FALLBACK: If specie is anything else, safely return false 
-                // This fixes the red squiggly line!
-                return false;
-        }
+            return true;
+        }else if(specie == 2 && petChance >= 75)
+        {
+            return true;
+        }else return false;
     }
     #endregion
 }

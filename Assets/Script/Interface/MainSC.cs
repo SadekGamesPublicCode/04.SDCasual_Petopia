@@ -9,7 +9,6 @@ public class MainSC : MonoBehaviour
     [HideInInspector] GenMNSC genCtr;
     [HideInInspector] DataSC data;
     [SerializeField] InventorySC inventoryPanels;
-    public Text mouseCoordinate;
 
     //Pet Prefabs
     [SerializeField] GameObject dogPre, catPre, rabbitPre, fishPre;
@@ -18,11 +17,11 @@ public class MainSC : MonoBehaviour
     [SerializeField] Text gCoinTxt;
     [SerializeField] Image imgHungry, imgThirsty, imgEnergy, imgHappy;
     [SerializeField] GameObject inventoryFood, inventoryDrink, inventoryMedicine;
-    [SerializeField] GameObject achievePnl, patrolRewardPnl, petInforPnl;
+    [SerializeField] GameObject achievePnl, patrolRewardPnl, sleepPnl;
     //Pet Statics
     private string gName;
     public int gSpecie, gGender, gOld, gColor, gPetDied, gPetSickCon, gPetExp;
-    private int gHungry, gThirsty, gEnergy, gHappy;
+    public int gHungry, gThirsty, gEnergy, gHappy;
 
     //Gameplay Statics
     private int gCoin;
@@ -40,10 +39,10 @@ public class MainSC : MonoBehaviour
         gPetDied = genCtr.petDied;
         gPetExp = genCtr.petExp;
 
-        gHungry = genCtr.petHungerLvl;
-        gThirsty = genCtr.petThirstyLvl;
-        gHappy = genCtr.petHappyLvl;
-        gEnergy = genCtr.petEnergyLvl;
+        gHungry = data.petHungryValue;
+        gThirsty = data.petThirstyValue;
+        gHappy = data.petHungryValue;
+        gEnergy = data.petEnergyValue;
         gCoin = data.pCurrency;
 
         InvokeRepeating(nameof(UpdatePetStats), 0f, 60f);
@@ -106,31 +105,31 @@ public class MainSC : MonoBehaviour
         {
             gHungry = data.petHungryValue;
         }
-            UpdateUIs();
+        UpdateUIs();
     }
     public void OnUpdateThirsty(int state, int a)
     {
         if (state == 0)
         {
             data.UpdatePetThirsty(a);
-        }else if(state == 1)
+        }
+        else if (state == 1)
         {
             gThirsty = data.petThirstyValue;
-
         }
         UpdateUIs();
     }
     public void OnUpdateHappy(int state, int a)
     {
-        if(state == 0) { data.UpdatePetHappy(a);}
-        else if(state == 1) { gHappy = data.petHappinessValue; }
+        if (state == 0) { data.UpdatePetHappy(a); }
+        else if (state == 1) { gHappy = data.petHappinessValue; }
         UpdateUIs();
     }
     public void OnUpdateEnergy(int state, int a)
     {
         if (state == 0) { data.UpdatePetHappy(a); }
         else if (state == 1) { gEnergy = data.petEnergyValue; }
-            UpdateUIs();
+        UpdateUIs();
     }
     public void OnUpdateOld(int a)
     {
@@ -141,6 +140,9 @@ public class MainSC : MonoBehaviour
     public void OnUpdateSleep()
     {
         //Let pet sleep
+        gEnergy = 100;
+        data.UpdatePetenergy(gEnergy);
+        UpdateUIs();
     }
     public void UpdateShitStayOnScreen(int a)
     {
@@ -148,12 +150,13 @@ public class MainSC : MonoBehaviour
     }
     public void UpdateDied(bool died)
     {
-        if(died == true)
+        if (died == true)
         {
             gPetDied = 1;
             genCtr.petDied = 1;
             data.UpdatePetDied(genCtr.petDied);
-        }else if(died == false)
+        }
+        else if (died == false)
         {
             gPetDied = 0;
             genCtr.petDied = 0;
@@ -191,7 +194,10 @@ public class MainSC : MonoBehaviour
         inventoryPanels.OnSetInevntoryPanel();
     }
     #endregion
+    public void OnToSleep()
+    {
 
+    }
     public void OnShowSetting() => genCtr.OnShowSetting();
     private void OnhidePanels()
     {
@@ -217,4 +223,9 @@ public class MainSC : MonoBehaviour
     {
         genCtr.OnChangeScene(4);
     }
+    public void OnShowPromotion()
+    {
+        genCtr.OnShowPromotion();
+    }
+    public void OnPlaySoundSFX() { genCtr.PlaySFX(); }
 }

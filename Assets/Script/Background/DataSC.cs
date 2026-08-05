@@ -183,15 +183,10 @@ public class DataSC : MonoBehaviour
         PlayerPrefs.SetInt("AllowClaimDaily", state);
         pAllowClaimDaily = PlayerPrefs.GetInt("AllowClaimDaily");
     }
-    public void UpdateStreak(int typeStreak, int value)
+    public void UpdateStreak(int value)
     {
-        switch (typeStreak)
-        {
-            case 1:
-                PlayerPrefs.SetInt("PatrolDailyStreak", value);
-                pDailyStreak = value;
-                break;
-        }
+        PlayerPrefs.SetInt("PatrolDailyStreak", value);
+        pDailyStreak = value;
     }
     #endregion
 
@@ -231,9 +226,11 @@ public class DataSC : MonoBehaviour
     }
     public void UpdatePetHungry(int value)
     {
+        print("in UpdatePetHungry");
         //Only call while switch scene or needed to
         PlayerPrefs.SetInt("PetHungry", value);
         petHungryValue = PlayerPrefs.GetInt("PetHungry");
+        print("UpdatePetHungry = " + +petHungryValue);
     }
     public void UpdatePetThirsty(int value)
     {

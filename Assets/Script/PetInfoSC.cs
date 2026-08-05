@@ -11,13 +11,14 @@ public class PetInfoSC : MonoBehaviour
     [HideInInspector] DataSC petData;
     [SerializeField] Text petNameTxt, petOldTxt, petSpecieTxt, petGenderTxt, petExpTxt;
     [SerializeField] Text petHUngerTxt, petThirstyTxt, petHappyTxt, petEnergyTxt, petConditionTxt;
+    int petStatValue;
     private void Awake()
     {
         petData = GameObject.Find("GenMN").GetComponent<DataSC>();
     }
     void Start()
     {
-
+        petStatValue = 0;
         OnCollectData();
     }
     private void OnEnable() 
@@ -27,7 +28,7 @@ public class PetInfoSC : MonoBehaviour
     }
     void OnCollectData()
     {
-        pName = petData.pName;
+        pName = petData.petName;
         pOld = petData.petOld;
         pExp = petData.petExperiment;
         pSps = petData.petSpecieOrder;
@@ -38,6 +39,8 @@ public class PetInfoSC : MonoBehaviour
         pHappy = petData.petHappinessValue;
         pEnergy = petData.petEnergyValue;
         pDied = petData.petDied;
+
+        OnOverridePetData();
     }
     private void OnOverridePetData()
     {
@@ -60,14 +63,11 @@ public class PetInfoSC : MonoBehaviour
         petOldTxt.text = pOld.ToString();
         switch (pGender)
         {
-            case 1:
+            case 0:
                 petGenderTxt.text = "MALE";
                 break;
-            case 2:
+            case 1:
                 petGenderTxt.text = "FEMALE";
-                break;
-            case 3:
-                petGenderTxt.text = "PRIDE";
                 break;
         }
         petExpTxt.text = pExp.ToString();
@@ -76,42 +76,25 @@ public class PetInfoSC : MonoBehaviour
         petThirstyTxt.text = pThirsty.ToString();
         petHappyTxt.text = pHappy.ToString();
         petEnergyTxt.text = pEnergy.ToString();
-        if(pDied == 0)
+
+        petStatValue = (pHunger + pThirsty + pHappy + pEnergy)/4;
+        if (pDied == 0)
         {
-            switch (pCondition)
+            if(petStatValue >= 75)
             {
-                case 0:
-                    //Good
-                    petConditionTxt.text = "Very Good";
-                    break;
-                case 1:
-                    //Flu
-                    petConditionTxt.text = "Flu";
-                    break;
-                case 2:
-                    //Digestive
-                    petConditionTxt.text = "Digestive";
-                    break;
-                case 3:
-                    //Stress
-                    petConditionTxt.text = "Stress";
-                    break;
-                case 4:
-                    //Respiratory Problems
-                    petConditionTxt.text = "Respiratory Problems";
-                    break;
-                case 5:
-                    //Obesity
-                    petConditionTxt.text = "Obesity";
-                    break;
-                case 6:
-                    //Nutritional Problem
-                    petConditionTxt.text = "Nutritional Problem";
-                    break;
-                case 7:
-                    //Parasite Infection
-                    petConditionTxt.text = "Parasite Infection";
-                    break;
+                petConditionTxt.text = "Very Good";
+            }
+            else if(petStatValue >= 50 && petStatValue < 75)
+            {
+                petConditionTxt.text = "Normal";
+            }
+            else if (petStatValue >= 25 && petStatValue < 50)
+            {
+                petConditionTxt.text = "Unhappy";
+            }
+            else if(petStatValue < 25)
+            {
+                petConditionTxt.text = "Bad";
             }
         }else if(pDied == 1)
         {

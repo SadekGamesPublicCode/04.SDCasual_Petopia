@@ -172,7 +172,7 @@ PlayerSettings:
   overrideDefaultApplicationIdentifier: 0
   AndroidBundleVersionCode: 3
   AndroidMinSdkVersion: 24
-  AndroidTargetSdkVersion: 0
+  AndroidTargetSdkVersion: 36
   AndroidPreferredInstallLocation: 1
   aotOptions: 
   stripEngineCode: 1
@@ -751,7 +751,23 @@ PlayerSettings:
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Android: LEVELPLAY_DEPENDENCIES_INSTALLED
+    Android: LEVELPLAY_DEPENDENCIES_INSTALLED;DOTWEEN
+    EmbeddedLinux: DOTWEEN
+    GameCoreScarlett: DOTWEEN
+    GameCoreXboxOne: DOTWEEN
+    LinuxHeadlessSimulation: DOTWEEN
+    Nintendo Switch: DOTWEEN
+    PS4: DOTWEEN
+    PS5: DOTWEEN
+    QNX: DOTWEEN
+    Stadia: DOTWEEN
+    Standalone: LEVELPLAY_DEPENDENCIES_INSTALLED;DOTWEEN
+    VisionOS: DOTWEEN
+    WebGL: DOTWEEN
+    Windows Store Apps: DOTWEEN
+    XboxOne: DOTWEEN
+    iPhone: DOTWEEN
+    tvOS: DOTWEEN
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
@@ -864,7 +880,7 @@ PlayerSettings:
   cloudProjectId: f1e5c0fa-3d46-4f7e-8532-9c1b35306a93
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Petopia
+  projectName: 4. Petopia (SDCasual)
   organizationId: wokpaul
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0

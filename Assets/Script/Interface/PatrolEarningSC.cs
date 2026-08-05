@@ -10,7 +10,6 @@ public class PatrolEarningSC : MonoBehaviour
     [HideInInspector] GenMNSC genCtr;
     [HideInInspector] MainSC mainSC;
     [SerializeField] List<Button> rewardBtn = new List<Button>();
-    [SerializeField] List<GameObject> dailyGrid = new List<GameObject>();
     [SerializeField] List<Text> rewardText = new List<Text>();
  
     private const string LastPatrolTimeKey = "LastPatrolTime";
@@ -45,6 +44,7 @@ public class PatrolEarningSC : MonoBehaviour
         rewardText[4].text = "160";
         rewardText[5].text = "320";
         rewardText[6].text = "640";
+        rewardText[7].text = "1080";
     }
 
     #region Handle Claim Daily
@@ -78,7 +78,7 @@ public class PatrolEarningSC : MonoBehaviour
                         rewardBtn[i].GetComponent<Button>().interactable = false;
                     }
 
-                    for(int j = streakDaily+1; j > rewardBtn.Count; j++) 
+                    for (int j = streakDaily + 1; j > rewardBtn.Count; j++)
                     {
                         rewardBtn[j].GetComponent<Button>().interactable = false;
                     }
@@ -122,13 +122,11 @@ public class PatrolEarningSC : MonoBehaviour
         streakDaily++;
         data.UpdateAllowClaimDaily(1);
 
-        print("tempFinalScoreToOverride = " + tempFinalScoreToOverride);
-
         data.UpdateTotalMoney(tempFinalScoreToOverride); // Update score
-        data.UpdateStreak(1, streakDaily); //Update streak
+        data.UpdateStreak(streakDaily); //Update streak
         data.UpdatePatrolDailyReward(lastCollectDay); //Update last collect day
         ShowRewardDaily();
-        mainSC.UpdateUIs();
+        mainSC.OnPlusCoin(tempFinalScoreToOverride);
     }
     private void SelectRewardDaily()
     {
@@ -164,7 +162,7 @@ public class PatrolEarningSC : MonoBehaviour
 
     private void OnCheckDailyClaimOnInit()
     {
-        if(genCtr.toDay != data.pLastDailyClaim)
+        if (genCtr.toDay != data.pLastDailyClaim)
         {
             data.UpdateAllowClaimDaily(0);
             isAllowDailyClaim = true;

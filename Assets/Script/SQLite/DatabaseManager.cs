@@ -19,7 +19,7 @@ public class DatabaseManager : MonoBehaviour
 
         db = new SQLiteConnection(dbPath);
         CreateTables();
-        Debug.Log(Application.persistentDataPath);
+        //Debug.Log(Application.persistentDataPath);
     }
     void CreateTables()
     {
