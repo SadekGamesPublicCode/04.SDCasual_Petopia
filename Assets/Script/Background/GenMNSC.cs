@@ -25,6 +25,7 @@ public class GenMNSC : Singleton<GenMNSC>
     public int petHungerLvl, petThirstyLvl, petHappyLvl, petEnergyLvl;
     public int curGameScene;
     private int countToInterstialShow;
+    private int playtimeDuration;
     private void Awake() => DontDestroyOnLoad(this);
     [SerializeField] SceneMN sceneCtr;
     void Start()
@@ -41,6 +42,17 @@ public class GenMNSC : Singleton<GenMNSC>
         HideAllPanel();
         toDay = (DateTime.Today.Day).ToString() ;
         countToInterstialShow = 0;
+        playtimeDuration = 0;
+    }
+
+    private void CountPlayerPlaytime()
+    {
+        playtimeDuration++;
+        if(playtimeDuration >= 300)
+        {
+            adsCtr.ShowAds(1);
+            playtimeDuration = 0;
+        }
     }
 
     #region Handle Switching Scene
@@ -123,6 +135,8 @@ public class GenMNSC : Singleton<GenMNSC>
         petThirstyLvl = data.petThirstyValue;
         petHappyLvl = data.petHappinessValue;
         petEnergyLvl = data.petEnergyValue;
+
+        InvokeRepeating(nameof(CountPlayerPlaytime), 0f, 1f); //Start counting player playtime to show InsterAds
     }
     public void PlaySFX()
     {
